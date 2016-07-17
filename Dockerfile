@@ -38,9 +38,10 @@ RUN git clone https://github.com/damianavila/RISE.git &&\
     cd .. &&\
     rm -rf RISE
 
+RUN sudo chown -R jovyan /home/jovyan/.jupyter
+
 USER jovyan
 
 #jupyter css
 RUN mkdir -p /home/jovyan/.jupyter/custom
 COPY custom /home/jovyan/.jupyter/custom
-
