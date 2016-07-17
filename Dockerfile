@@ -3,23 +3,6 @@ FROM  jupyter/scipy-notebook
 # make bash default shell
 USER root
 RUN ln -snf /bin/bash /bin/sh
-
-USER jovyan
-#jupyter theme selector
-RUN mkdir /opt/conda/share/jupyter/nbextensions/jupyter_themes
-RUN wget https://raw.githubusercontent.com/merqurio/jupyter_themes/master/theme_selector.js
-RUN mv theme_selector.js /opt/conda/share/jupyter/nbextensions/jupyter_themes
-RUN  jupyter nbextension enable jupyter_themes/theme_selector
-#jupyter css
-RUN mkdir -p /home/jovyan/.jupyter/custom
-COPY custom /home/jovyan/.jupyter/custom
-# live reveal
-RUN git clone https://github.com/damianavila/RISE.git &&\
-    cd RISE &&\
-    python setup.py install &&\
-    cd .. &&\
-    rm -rf RISE
-
 # copy lato typography
 COPY Lato /usr/share/fonts/truetype/
 
@@ -43,4 +26,19 @@ RUN jupyter nbextension enable usability/toggle_all_line_numbers/main
 RUN jupyter nbextension enable usability/limit_output/main
 
 USER jovyan
+#jupyter theme selector
+RUN mkdir /opt/conda/share/jupyter/nbextensions/jupyter_themes
+RUN wget https://raw.githubusercontent.com/merqurio/jupyter_themes/master/theme_selector.js
+RUN mv theme_selector.js /opt/conda/share/jupyter/nbextensions/jupyter_themes
+RUN  jupyter nbextension enable jupyter_themes/theme_selector
+#jupyter css
+RUN mkdir -p /home/jovyan/.jupyter/custom
+COPY custom /home/jovyan/.jupyter/custom
+# live reveal
+RUN git clone https://github.com/damianavila/RISE.git &&\
+    cd RISE &&\
+    python setup.py install &&\
+    cd .. &&\
+    rm -rf RISE
+
 
