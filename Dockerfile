@@ -1,5 +1,9 @@
 FROM  jupyter/scipy-notebook
 
+# make bash default shell
+USER root
+RUN ln -snf /bin/bash /bin/sh
+
 USER jovyan
 #jupyter theme selector
 RUN mkdir /opt/conda/share/jupyter/nbextensions/jupyter_themes
@@ -15,7 +19,7 @@ RUN git clone https://github.com/damianavila/RISE.git &&\
     python setup.py install &&\
     cd .. &&\
     rm -rf RISE
-USER root
+
 # copy lato typography
 COPY Lato /usr/share/fonts/truetype/
 
@@ -37,7 +41,6 @@ RUN jupyter nbextension enable styling/table_beautifier/main
 RUN jupyter nbextension enable usability/codefolding/main
 RUN jupyter nbextension enable usability/toggle_all_line_numbers/main
 RUN jupyter nbextension enable usability/limit_output/main
-
 
 USER jovyan
 
