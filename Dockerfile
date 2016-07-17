@@ -25,15 +25,12 @@ RUN jupyter nbextension enable usability/codefolding/main
 RUN jupyter nbextension enable usability/toggle_all_line_numbers/main
 RUN jupyter nbextension enable usability/limit_output/main
 
-USER jovyan
 #jupyter theme selector
-RUN mkdir /opt/conda/share/jupyter/nbextensions/jupyter_themes
-RUN wget https://raw.githubusercontent.com/merqurio/jupyter_themes/master/theme_selector.js
-RUN mv theme_selector.js /opt/conda/share/jupyter/nbextensions/jupyter_themes
-RUN  jupyter nbextension enable jupyter_themes/theme_selector
-#jupyter css
-RUN mkdir -p /home/jovyan/.jupyter/custom
-COPY custom /home/jovyan/.jupyter/custom
+RUN mkdir /opt/conda/share/jupyter/nbextensions/jupyter_themes &&\
+    wget https://raw.githubusercontent.com/merqurio/jupyter_themes/master/theme_selector.js &&\
+    mv theme_selector.js /opt/conda/share/jupyter/nbextensions/jupyter_themes &&\
+    jupyter nbextension enable jupyter_themes/theme_selector
+
 # live reveal
 RUN git clone https://github.com/damianavila/RISE.git &&\
     cd RISE &&\
@@ -41,4 +38,9 @@ RUN git clone https://github.com/damianavila/RISE.git &&\
     cd .. &&\
     rm -rf RISE
 
+USER jovyan
+
+#jupyter css
+RUN mkdir -p /home/jovyan/.jupyter/custom
+COPY custom /home/jovyan/.jupyter/custom
 
