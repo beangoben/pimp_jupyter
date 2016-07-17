@@ -9,7 +9,12 @@ RUN  jupyter nbextension enable jupyter_themes/theme_selector
 #jupyter css
 RUN mkdir -p /home/jovyan/.jupyter/custom
 COPY custom /home/jovyan/.jupyter/custom
-
+# live reveal
+RUN git clone https://github.com/damianavila/RISE.git &&\
+    cd RISE &&\
+    python setup.py install &&\
+    cd .. &&\
+    rm -rf RISE
 USER root
 # copy lato typography
 COPY Lato /usr/share/fonts/truetype/
@@ -26,8 +31,12 @@ RUN JUPYTER_DATA_DIR=/usr/local/share/jupyter &&\
     rm -rf IPython-notebook-extensions
 # enable some extensions by default
 
-
-
+RUN jupyter nbextension enable usability/code_font_size/code_font_size
+RUN jupyter nbextension enable usability/ruler/main
+RUN jupyter nbextension enable styling/table_beautifier/main
+RUN jupyter nbextension enable usability/codefolding/main
+RUN jupyter nbextension enable usability/toggle_all_line_numbers/main
+RUN jupyter nbextension enable usability/limit_output/main
 
 
 USER jovyan
