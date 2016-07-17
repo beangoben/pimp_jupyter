@@ -12,7 +12,7 @@ COPY custom /home/jovyan/.jupyter/custom
 
 USER root
 # copy lato typography
-RUN mv /home/jovyan/.jupyter/custom/Lato /usr/share/fonts/truetype/
+COPY Lato /usr/share/fonts/truetype/
 
 # jupyter notebook extensions
 RUN pip install jupyter_nbextensions_configurator psutil
