@@ -40,8 +40,15 @@ RUN git clone https://github.com/damianavila/RISE.git &&\
 
 RUN sudo chown -R jovyan /home/jovyan/.jupyter
 
+# update conda
+RUN conda update --all --quiet --yes
+RUN conda update -n python2 --all --quiet --yes
+
 USER jovyan
 
 #jupyter css
 RUN mkdir -p /home/jovyan/.jupyter/custom
 COPY custom /home/jovyan/.jupyter/custom
+
+
+
