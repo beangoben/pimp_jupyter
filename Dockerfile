@@ -3,9 +3,6 @@ FROM  jupyter/scipy-notebook
 # make bash default shell
 USER root
 RUN ln -snf /bin/bash /bin/sh
-# copy lato typography
-COPY Lato /usr/share/fonts/truetype/
-
 # jupyter notebook extensions
 RUN pip install jupyter_nbextensions_configurator psutil
 
@@ -41,9 +38,6 @@ RUN git clone https://github.com/damianavila/RISE.git &&\
 RUN sudo chown -R jovyan /home/jovyan/.jupyter
 
 # update conda
-#RUN conda update --all --quiet --yes
-#RUN conda update -n python2 --all --quiet --yes
-
 USER jovyan
 
 #jupyter css
