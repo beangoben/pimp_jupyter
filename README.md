@@ -4,12 +4,11 @@ Docker container for a pimped-up jupyter notebook.
 
 ## What's included?
 
-- based on the [jupyter/scipy-notebook](https://github.com/jupyter/docker-stacks/tree/master/scipy-notebook) container, has joyvan user with two anaconda enviroments: python 3.5 (default) and python 2.7\. Packages are updated with conda.
-- [Lato font](http://www.latofonts.com/) installed
+- based on the [jupyter/scipy-notebook](https://github.com/jupyter/docker-stacks/tree/master/scipy-notebook) container, has joyvan user with two anaconda enviroments: python 3.5 (default) and python 2.7.
 - [jupyter themes](https://github.com/merqurio/jupyter_themes), to modify syntax themes and code font.
 - [RISE slideshow](https://github.com/damianavila/RISE), to create jupyter "Live" Reveal.js slideshows.
-- [jupyter nbextensions](https://github.com/ipython-contrib/IPython-notebook-extensions), many useful extensions for notebooks. Many usability and styling extensions are activated by default.
-- **custom.css, custom.js** in jupyter's custom folder. They change the headers, default font and many more css changes.
+- [jupyter nbextensions](https://github.com/ipython-contrib/jupyter_contrib_nbextensions), many useful extensions for notebooks. Many usability and styling extensions are activated by default.
+- **custom.css, custom.js** in jupyter's custom folder. They change the headers, default font and many more css changes. Default line numbers.
 
 ## How to use
 

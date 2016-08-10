@@ -3,24 +3,9 @@ FROM  jupyter/scipy-notebook
 # make bash default shell
 USER root
 RUN ln -snf /bin/bash /bin/sh
-# jupyter notebook extensions
-RUN pip install jupyter_nbextensions_configurator psutil
 
-RUN JUPYTER_DATA_DIR=/usr/local/share/jupyter &&\
-    JUPYTER_CONFIG_DIR=/usr/local/share/jupyter &&\
-    git clone https://github.com/ipython-contrib/IPython-notebook-extensions.git &&\
-    cd IPython-notebook-extensions &&\
-    python setup.py install &&\
-    cd .. &&\
-    rm -rf IPython-notebook-extensions
-# enable some extensions by default
-
-RUN jupyter nbextension enable usability/code_font_size/code_font_size
-RUN jupyter nbextension enable usability/ruler/main
-RUN jupyter nbextension enable styling/table_beautifier/main
-RUN jupyter nbextension enable usability/codefolding/main
-RUN jupyter nbextension enable usability/toggle_all_line_numbers/main
-RUN jupyter nbextension enable usability/limit_output/main
+RUN conda update -y notebook
+RUN conda clean --all
 
 #jupyter theme selector
 RUN mkdir /opt/conda/share/jupyter/nbextensions/jupyter_themes &&\
@@ -29,20 +14,24 @@ RUN mkdir /opt/conda/share/jupyter/nbextensions/jupyter_themes &&\
     jupyter nbextension enable jupyter_themes/theme_selector
 
 # live reveal
-RUN git clone https://github.com/damianavila/RISE.git &&\
-    cd RISE &&\
-    python setup.py install &&\
-    cd .. &&\
-    rm -rf RISE
+RUN conda install -c damianavila82 -y rise
 
-RUN sudo chown -R jovyan /home/jovyan/.jupyter
+# jupyter notebook extensions
+RUN conda install -y jupyter_nbextensions_configurator psutil
+RUN jupyter nbextensions_configurator enable --system
 
+RUN pip install https://github.com/ipython-contrib/jupyter_contrib_nbextensions/tarball/master
+RUN jupyter contrib nbextension install --system
 # update conda
+RUN chown -R jovyan /home/jovyan
 USER jovyan
+
+RUN jupyter nbextension enable code_font_size/code_font_size
+RUN jupyter nbextension enable ruler/main
+RUN jupyter nbextension enable limit_output/main
+RUN jupyter nbextension enable table_beautifier/main
+RUN jupyter nbextension enable toggle_all_line_numbers/main
 
 #jupyter css
 RUN mkdir -p /home/jovyan/.jupyter/custom
 COPY custom /home/jovyan/.jupyter/custom
-
-
-

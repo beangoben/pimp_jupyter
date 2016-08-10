@@ -6,6 +6,8 @@ define([
         events.on("app_initialized.NotebookApp",
             function () {
                 IPython.Cell.options_default.cm_config.lineNumbers = true;
+
+                require("notebook/js/cell").Cell.options_default.cm_config.lineNumbers = true;
             }
         );
     }
