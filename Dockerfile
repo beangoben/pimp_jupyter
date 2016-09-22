@@ -19,7 +19,7 @@ RUN conda install -c damianavila82 -y rise
 # jupyter notebook extensions
 RUN conda install -y jupyter_nbextensions_configurator psutil
 RUN jupyter nbextensions_configurator enable --system
-
+RUN pip install yapf 
 RUN pip install https://github.com/ipython-contrib/jupyter_contrib_nbextensions/tarball/master
 RUN jupyter contrib nbextension install --system
 # update conda
@@ -31,6 +31,7 @@ RUN jupyter nbextension enable ruler/main
 RUN jupyter nbextension enable limit_output/main
 RUN jupyter nbextension enable table_beautifier/main
 RUN jupyter nbextension enable toggle_all_line_numbers/main
+RUN jupyter nbextension enable code_prettify-master/code_prettify
 
 #jupyter css
 RUN mkdir -p /home/jovyan/.jupyter/custom
