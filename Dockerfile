@@ -4,7 +4,13 @@ FROM  jupyter/scipy-notebook
 USER root
 RUN ln -snf /bin/bash /bin/sh
 
-RUN conda update -y notebook
+RUN apt-get update && \
+    apt-get install -y jq && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN conda update -y --quiet notebook
+RUN conda install -y --quiet conda-build
 RUN conda update --quiet -y numpy scipy matplotlib seaborn
 RUN conda clean --all
 
@@ -18,14 +24,15 @@ RUN mkdir /opt/conda/share/jupyter/nbextensions/jupyter_themes &&\
 RUN conda install -c damianavila82 -y rise
 
 # jupyter notebook extensions
-RUN conda install -y jupyter_nbextensions_configurator psutil
+RUN conda install -y -c conda-forge jupyter_contrib_nbextensions
+#RUN conda install -y jupyter_nbextensions_configurator psutil
 RUN jupyter nbextensions_configurator enable --system
 RUN pip install yapf
-RUN pip install https://github.com/ipython-contrib/jupyter_contrib_nbextensions/tarball/master
+RUN source activate python2 && pip install yapf
 RUN jupyter contrib nbextension install --system
 # update conda
-RUN chown -R jovyan /home/jovyan
-USER jovyan
+RUN chown -R $NB_USER /home/$NB_USER
+USER $NB_USER
 
 RUN jupyter nbextension enable code_font_size/code_font_size
 RUN jupyter nbextension enable ruler/main
@@ -35,7 +42,9 @@ RUN jupyter nbextension enable toggle_all_line_numbers/main
 RUN jupyter nbextension enable code_prettify/code_prettify
 RUN jupyter nbextension enable toc2/main
 #RUN jupyter nbextension enable css_selector/main
-
+# load default extension options
+COPY nbextensions_default.json /home/$NB_USER/.jupyter/nbconfig
+RUN cd /home/$NB_USER/.jupyter/nbconfig && jq -s add notebook.json nbextensions_default.json > new.json && mv new.json notebook.json
 #jupyter css
-RUN mkdir -p /home/jovyan/.jupyter/custom
-COPY custom /home/jovyan/.jupyter/custom
+RUN mkdir -p /home/$NB_USER/.jupyter/custom
+COPY custom /home/$NB_USER/.jupyter/custom
