@@ -24,8 +24,10 @@ RUN mkdir /opt/conda/share/jupyter/nbextensions/jupyter_themes &&\
 RUN conda install -y -q -c damianavila82 rise
 
 # jupyter notebook extensions
-RUN conda install -y -q -c conda-forge jupyter_contrib_nbextensions yapf
-RUN conda install -y -q -c conda-forge -n python2 yapf
+RUN conda install -y -q -c conda-forge jupyter_contrib_nbextensions yapf && \
+    conda clean --all
+RUN conda install -y -q -c conda-forge -n python2 yapf && \
+    conda clean --all
 
 #RUN conda install -y jupyter_nbextensions_configurator psutil
 RUN jupyter nbextensions_configurator enable --system && \
