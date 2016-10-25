@@ -7,12 +7,12 @@ RUN ln -snf /bin/bash /bin/sh
 RUN apt-get update && \
     apt-get install -y jq && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get autoclean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN conda update -y -q notebook
-RUN conda install -y -q conda-build
-RUN conda update -y -q numpy scipy matplotlib seaborn
-RUN conda clean --all
+RUN conda install -y -q conda-build &&\
+    conda update -y -q notebook numpy scipy matplotlib seaborn && \
+    conda clean --all
 
 #jupyter theme selector
 RUN mkdir /opt/conda/share/jupyter/nbextensions/jupyter_themes &&\
@@ -28,20 +28,20 @@ RUN conda install -y -q -c conda-forge jupyter_contrib_nbextensions yapf
 RUN conda install -y -q -c conda-forge -n python2 yapf
 
 #RUN conda install -y jupyter_nbextensions_configurator psutil
-RUN jupyter nbextensions_configurator enable --system
-RUN jupyter contrib nbextension install --system
+RUN jupyter nbextensions_configurator enable --system && \
+    jupyter contrib nbextension install --system
 # update conda
 RUN chown -R $NB_USER /home/$NB_USER
 USER $NB_USER
 
-RUN jupyter nbextension enable code_font_size/code_font_size
-RUN jupyter nbextension enable ruler/main
+RUN jupyter nbextension enable code_font_size/code_font_size && \
+    jupyter nbextension enable ruler/main  && \
+    jupyter nbextension enable table_beautifier/main && \
+    jupyter nbextension enable toggle_all_line_numbers/main && \
+    jupyter nbextension enable code_prettify/code_prettify && \
+    jupyter nbextension enable toc2/main && \
 #RUN jupyter nbextension enable limit_output/main
-RUN jupyter nbextension enable table_beautifier/main
-RUN jupyter nbextension enable toggle_all_line_numbers/main
-RUN jupyter nbextension enable code_prettify/code_prettify
-RUN jupyter nbextension enable toc2/main
-#RUN jupyter nbextension enable css_selector/main
+
 # load default extension options
 COPY nbextensions_default.json /home/$NB_USER/.jupyter/nbconfig
 RUN cd /home/$NB_USER/.jupyter/nbconfig && jq -s add notebook.json nbextensions_default.json > new.json && mv new.json notebook.json
