@@ -9,9 +9,9 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN conda update -y --quiet notebook
-RUN conda install -y --quiet conda-build
-RUN conda update --quiet -y numpy scipy matplotlib seaborn
+RUN conda update -y -q notebook
+RUN conda install -y -q conda-build
+RUN conda update -y -q numpy scipy matplotlib seaborn
 RUN conda clean --all
 
 #jupyter theme selector
@@ -21,14 +21,14 @@ RUN mkdir /opt/conda/share/jupyter/nbextensions/jupyter_themes &&\
     jupyter nbextension enable jupyter_themes/theme_selector
 
 # live reveal
-RUN conda install -c damianavila82 -y rise
+RUN conda install -y -q -c damianavila82 rise
 
 # jupyter notebook extensions
-RUN conda install -y -c conda-forge jupyter_contrib_nbextensions
+RUN conda install -y -q -c conda-forge jupyter_contrib_nbextensions yapf
+RUN conda install -y -q -c conda-forge -n python2 yapf
+
 #RUN conda install -y jupyter_nbextensions_configurator psutil
 RUN jupyter nbextensions_configurator enable --system
-RUN pip install yapf
-RUN source activate python2 && pip install yapf
 RUN jupyter contrib nbextension install --system
 # update conda
 RUN chown -R $NB_USER /home/$NB_USER
