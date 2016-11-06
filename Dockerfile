@@ -42,7 +42,7 @@ RUN jupyter nbextension enable code_font_size/code_font_size && \
     jupyter nbextension enable toggle_all_line_numbers/main && \
     jupyter nbextension enable code_prettify/code_prettify && \
     jupyter nbextension enable toc2/main && \
-#RUN jupyter nbextension enable limit_output/main
+    jupyter nbextension enable limit_output/main
 
 # load default extension options
 COPY nbextensions_default.json /home/$NB_USER/.jupyter/nbconfig
