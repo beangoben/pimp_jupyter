@@ -11,7 +11,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN conda install -y -q conda-build &&\
-    conda update -y -q notebook numpy scipy matplotlib seaborn && \
+    conda update -y -q notebook numpy scipy matplotlib seaborn ipython && \
     conda clean --all
 
 #jupyter theme selector
@@ -24,8 +24,10 @@ RUN mkdir /opt/conda/share/jupyter/nbextensions/jupyter_themes &&\
 RUN conda install -y -q -c damianavila82 rise
 
 # jupyter notebook extensions
-RUN conda install -y -q -c conda-forge jupyter_contrib_nbextensions yapf && \
-    conda clean --all
+#RUN conda install -y -q -c conda-forge jupyter_contrib_nbextensions yapf && \
+#    conda clean --all && \
+RUN pip install --upgrade --ignore-installed https://github.com/ipython-contrib/jupyter_contrib_nbextensions/tarball/master yapf
+
 RUN conda install -y -q -c conda-forge -n python2 yapf && \
     conda clean --all
 
@@ -42,7 +44,8 @@ RUN jupyter nbextension enable code_font_size/code_font_size && \
     jupyter nbextension enable toggle_all_line_numbers/main && \
     jupyter nbextension enable code_prettify/code_prettify && \
     jupyter nbextension enable toc2/main && \
-    jupyter nbextension enable limit_output/main
+    jupyter nbextension enable limit_output/main && \
+    jupyter nbextension enable execute_time/ExecuteTime
 
 # load default extension options
 COPY nbextensions_default.json /home/$NB_USER/.jupyter/nbconfig
