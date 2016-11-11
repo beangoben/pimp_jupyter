@@ -24,11 +24,11 @@ RUN mkdir /opt/conda/share/jupyter/nbextensions/jupyter_themes &&\
 RUN conda install -y -q -c damianavila82 rise
 
 # jupyter notebook extensions
-#RUN conda install -y -q -c conda-forge jupyter_contrib_nbextensions yapf && \
+#RUN conda install -y -q -c conda-forge jupyter_contrib_nbextensions yapf xlrd xlwt && \
 #    conda clean --all && \
-RUN pip install --upgrade --ignore-installed https://github.com/ipython-contrib/jupyter_contrib_nbextensions/tarball/master yapf
+RUN pip install --upgrade --ignore-installed https://github.com/ipython-contrib/jupyter_contrib_nbextensions/tarball/master yapf xlrd xlwt
 
-RUN conda install -y -q -c conda-forge -n python2 yapf && \
+RUN conda install -y -q -c conda-forge -n python2 yapf xlrd xlwt && \
     conda clean --all
 
 #RUN conda install -y jupyter_nbextensions_configurator psutil
