@@ -10,7 +10,7 @@ RUN apt-get update && \
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN conda install -y -q conda-build &&\
+RUN conda install -y -q conda-build xlrd xlwt &&\
     conda update -y -q notebook numpy scipy matplotlib seaborn ipython && \
     conda clean --all
 
